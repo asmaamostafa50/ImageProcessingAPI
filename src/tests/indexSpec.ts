@@ -1,6 +1,11 @@
 import app from '../index';
 import supertest from 'supertest';
+import fs from 'fs';
+import path from 'path';
+import { getImagesPath } from '../utils/utils';
+import { bool } from 'sharp';
 
+const imagesPath = path.join(getImagesPath(), 'resized');
 const request = supertest(app);
 
 describe('Test endpoint responses', () => {
@@ -67,14 +72,26 @@ describe('Test endpoint responses', () => {
     expect(response.status).toBe(200);
   });
 
-  it('tests complete valid query', async () => {
+  it('tests for image processing', async () => {
+    const newfilename = filename+'-height121-width113.jpg';
+    let exists : boolean = false;
+    (fs.existsSync(path.join(imagesPath,newfilename)))
+    {
+      fs.unlinkSync(path.join(imagesPath,newfilename));
+    }
     const response = await request.get(
       '/api/resizeImage?filename=' + filename + '&width=113' + '&height=121'
     );
+
+    if(fs.existsSync(path.join(imagesPath,newfilename)))
+    {
+      exists = true;
+    }
     expect(response.status).toBe(200);
+    expect(exists).toBe(true);
   });
 
-  it('tests complete valid query returned from cache', async () => {
+  it('tests for image processing returned from cache', async () => {
     const response = await request.get(
       '/api/resizeImage?filename=' + filename + '&width=113' + '&height=121'
     );
