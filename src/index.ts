@@ -19,7 +19,7 @@ app.get('/', async (_req: Request, res: Response): Promise<void> => {
 });
 
 //use this function to map your app to a port
-app.listen(port, () => {
+app.listen(port, () : void => {
   console.log('server started on port: ' + port);
 });
 

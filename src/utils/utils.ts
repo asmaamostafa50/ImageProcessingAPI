@@ -35,8 +35,8 @@ const resizeImage = async (
 
 export const handleImage = async (query: qs.ParsedQs): Promise<string> => {
   const { filename, width, height } = query;
-  const imagesPath = getImagesPath();
-  const originalImagePath = path.join(imagesPath, filename + '.jpg');
+  const imagesPath: string = getImagesPath();
+  const originalImagePath: string = path.join(imagesPath, filename + '.jpg');
 
   if (!width && !height) {
     console.log('Return Original Image');

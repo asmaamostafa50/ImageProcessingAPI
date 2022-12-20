@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { logger } from '../../middlewares/logger';
 import {
   imageValidation,
@@ -9,7 +9,7 @@ import { handleImage } from '../../utils/utils';
 const imageAPIRoute = express.Router();
 imageAPIRoute.use([logger, imageValidation, dimensionsValidation]);
 
-imageAPIRoute.get('/', async (req, res) => {
+imageAPIRoute.get('/', async (req: Request, res: Response): Promise<void> => {
   const imagesPath = await handleImage(req.query);
   //console.log('here', imagesPath);
   res.sendFile(imagesPath);
